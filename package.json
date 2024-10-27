@@ -1,0 +1,19 @@
+{
+  "name": "carbon-cli",
+  "module": "src/index.ts",
+  "type": "module",
+  "bin": {
+    "carbon": "src/index.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "latest",
+    "@types/yargs": "^17.0.33"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
+}
