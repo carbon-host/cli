@@ -28,4 +28,5 @@ cli
     description: "Enable verbose logging",
   })
   .demandCommand(1, "You need to specify a command")
-  .parse();
+  .scriptName("carbon")
+  .parse()
