@@ -1,35 +1,31 @@
-import yargs from "yargs"
-import {hideBin} from "yargs/helpers"
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { commands } from "@/commands/index.ts";
 
-yargs(hideBin(process.argv)).command(
-  "deploy <source> <target>",
-  "Deploys a local file to your star",
-  (yargs) => {
-    return yargs
-      .positional("source", {
-        description: "The source file on the local file system",
-        type: "string",
-      })
-      .positional("target", {
-        description: "The target file on the server",
-        type: "string",
-      });
-  }, (argv) => {
-    console.log(argv.source, argv.target);
-  })
-  .command(
-    "list",
-    "List your deployed stars",
-    (argv) => {
-      console.log("list");
-    }
-  )
+const cli = yargs(hideBin(process.argv));
 
+// Register all commands
+commands.forEach(
+  ({
+    command,
+    builder,
+    handler,
+    desc,
+  }: {
+    command: string;
+    builder?: any;
+    handler: any;
+    desc: string;
+  }) => {
+    cli.command(command, desc, builder || (() => {}), handler);
+  },
+);
+
+cli
   .option("verbose", {
     alias: "v",
     type: "boolean",
     description: "Enable verbose logging",
   })
-  // show help if no command is provided
   .demandCommand(1, "You need to specify a command")
-  .parse()
+  .parse();

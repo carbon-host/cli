@@ -27,7 +27,8 @@
         "noNonNullAssertion": "off"
       },
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noExplicitAny": "off"
       }
     }
   },
