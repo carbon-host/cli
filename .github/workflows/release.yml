@@ -24,9 +24,10 @@ jobs:
       - name: Build CLI
         run: |
           # Compile for different platforms
-          bun build ./src/index.ts --compile --outfile carbon-linux
-          bun build ./src/index.ts --compile --outfile carbon-macos --target darwin
-          bun build ./src/index.ts --compile --outfile carbon-windows.exe --target win32
+          bun build ./src/index.ts --compile --outfile carbon-linux --target bun-linux-x64
+          bun build ./src/index.ts --compile --outfile carbon-linux-arm --target bun-linux-arm64
+          bun build ./src/index.ts --compile --outfile carbon-macos --target bun-darwin-arm64
+          bun build ./src/index.ts --compile --outfile carbon-windows.exe --target bun-windows-x64
 
       - name: Create Release
         id: create_release
@@ -34,6 +35,7 @@ jobs:
         with:
           files: |
             carbon-linux
+            carbon-linux-arm
             carbon-macos
             carbon-windows.exe
           draft: false
