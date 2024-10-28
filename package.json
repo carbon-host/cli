@@ -16,6 +16,7 @@
   "dependencies": {
     "@carbonhost/typescript": "link:@carbonhost/typescript",
     "chalk": "^5.3.0",
+    "cli-table3": "^0.6.5",
     "conf": "^13.0.1",
     "yargs": "^17.7.2"
   }
