@@ -3,7 +3,7 @@ import {hideBin} from "yargs/helpers"
 
 yargs(hideBin(process.argv)).command(
   "deploy <source> <target>",
-  "Deploys a file from the source (local) to the (server) target",
+  "Deploys a local file to your star",
   (yargs) => {
     return yargs
       .positional("source", {
@@ -17,6 +17,14 @@ yargs(hideBin(process.argv)).command(
   }, (argv) => {
     console.log(argv.source, argv.target);
   })
+  .command(
+    "list",
+    "List your deployed stars",
+    (argv) => {
+      console.log("list");
+    }
+  )
+
   .option("verbose", {
     alias: "v",
     type: "boolean",
