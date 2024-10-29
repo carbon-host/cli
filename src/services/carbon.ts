@@ -1,11 +1,14 @@
-import { CarbonClient } from "@carbonhost/typescript/src/index";
-import { getApiKey } from "@/config";
+import {Carbon} from "@carbonhost/typescript";
+import {getApiKey} from "@/config";
 
-let carbonClient: CarbonClient | null = null;
+let carbonClient: Carbon | null = null;
 
-export const getCarbonClient = (): CarbonClient => {
+export const getCarbonClient = (): Carbon => {
   if (!carbonClient) {
-    carbonClient = new CarbonClient(getApiKey());
+    carbonClient = new Carbon({
+      apiKey: getApiKey(),
+    });
   }
+
   return carbonClient;
 };

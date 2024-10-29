@@ -1,9 +1,10 @@
 import type {Arguments} from 'yargs';
 import type {CommandArgs} from '@/types';
 import chalk from 'chalk';
-import {getCarbonClient} from '../services/carbon';
 import Table from 'cli-table3';
 import prettyBytes from "pretty-bytes";
+import {getCarbonClient} from "@/services/carbon.ts";
+import type {StarStatus} from "../../../carbon-typescript/src/types/star.ts";
 
 export const list = "ls";
 
@@ -22,13 +23,14 @@ export const listHandler = async (argv: Arguments<CommandArgs>) => {
       chalk.bold("Storage"),
       chalk.bold("Memory"),
       chalk.bold("CPU (%)"),
+      chalk.bold("Status"),
       chalk.bold("Domain"),
       chalk.bold("Created At"),
     ],
-    colWidths: [20, 10, 10, 10, 10, 10, 25, 25],
+    colWidths: [20, 10, 10, 10, 10, 10, 15, 25, 25],
   });
 
-  stars.forEach((star) => {
+  for (const star of stars) {
     table.push([
       chalk.green(star.starName),
       chalk.cyan(star.starType),
@@ -40,10 +42,11 @@ export const listHandler = async (argv: Arguments<CommandArgs>) => {
         prettyBytes(star.memoryLimit * 1024 * 1024, { binary: true }),
       ),
       chalk.blueBright(star.cpuLimit.toString()),
+      chalk.yellow(await star.getStatus().then((status: StarStatus) => status.status)),
       chalk.cyan(star.getDomain()),
       chalk.gray(new Date(star.createdAt).toLocaleString()),
     ]);
-  });
+  }
 
   console.log(table.toString());
 };
