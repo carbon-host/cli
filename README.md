@@ -9,11 +9,8 @@ The **Carbon CLI** provides a powerful command-line interface for managing your 
 
 ## Installation
 
-To install the CLI, use your preferred package manager:
+To install the CLI, use bun as shown below:
 
-```bash
-npm install -g carbon-cli
-```
 ```bash
 bun add -g carbon-cli
 ```
