@@ -7,7 +7,7 @@
 
 The **Carbon CLI** provides a powerful command-line interface for managing your Minecraft server hosting on the Carbon Host platform. Built with TypeScript, it offers commands for deploying files, watching for changes, and managing your deployed stars seamlessly.
 
-## Installation (COMING SOON)
+## Installation
 
 To install the CLI, use your preferred package manager:
 
