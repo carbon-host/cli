@@ -2,8 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-GNU%20AGPL-blue)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/types-TypeScript-blue)](https://www.typescriptlang.org/)
-[![Build](https://img.shields.io/github/actions/workflow/status/carbon-host/carbon-cli/ci.yml)](https://github.com/carbon-host/carbon-cli/actions)
-[![npm](https://img.shields.io/npm/v/carbon-cli)](https://www.npmjs.com/package/carbon-cli)
+[![Build](https://img.shields.io/github/actions/workflow/status/carbon-host/carbon-cli/publish.yml)](https://github.com/carbon-host/carbon-cli/actions)
+[![npm](https://img.shields.io/npm/v/@carbonhost/cli)](https://www.npmjs.com/package/@carbonhost/cli)
 
 The **Carbon CLI** provides a powerful command-line interface for managing your Minecraft server hosting on the Carbon Host platform. Built with TypeScript, it offers commands for deploying files, watching for changes, and managing your deployed stars seamlessly.
 
