@@ -1,6 +1,7 @@
 import {deploy, deployBuilder, deployHandler} from "@/commands/deploy.ts";
 import {list, listHandler} from "@/commands/list.ts";
 import {setKey, setKeyBuilder, setKeyHandler} from "@/commands/setKey.ts";
+import {watchBuilder, watchCmd, watchHandler} from "@/commands/watch.ts";
 
 export const commands = [
   {
@@ -8,6 +9,12 @@ export const commands = [
     builder: deployBuilder,
     handler: deployHandler,
     desc: "Deploys a local file to your star"
+  },
+  {
+    command: watchCmd,
+    builder: watchBuilder,
+    handler: watchHandler,
+    desc: "Watches a local file and deploys it to your star"
   },
   {
     command: list,
