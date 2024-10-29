@@ -40,7 +40,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "@carbonhost/typescript": "link",
+    "@carbonhost/typescript": "^0.0.4",
     "@types/lodash": "^4.17.12",
     "chalk": "^5.3.0",
     "cli-table3": "^0.6.5",
