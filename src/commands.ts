@@ -27,6 +27,10 @@ cli
     type: "boolean",
     description: "Enable verbose logging",
   })
+  .option("star", {
+    type: "string",
+    description: "The ID of the star to use",
+  })
   .demandCommand(1, "You need to specify a command")
   .scriptName("carbon")
   .parse()

@@ -1,5 +1,6 @@
 export interface CommandArgs {
   verbose?: boolean;
+  star?: string;
 }
 
 export interface DeployArgs extends CommandArgs {
