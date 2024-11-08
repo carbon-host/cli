@@ -9,11 +9,7 @@ The **Carbon CLI** provides a powerful command-line interface for managing your 
 
 ## Installation
 
-To install the CLI, use bun as shown below:
-
-```bash
-bun add -g carbon-cli
-```
+The installation steps are currently not public due to the state of Carbon Host. Once Carbon Host is released to the public, these will be revealed.
 
 ## Usage
 
