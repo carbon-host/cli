@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 import prettyBytes from "pretty-bytes";
 import {getCarbonClient} from "@/services/carbon.ts";
-import type {StarStatus} from "../../../carbon-typescript/src/types/star.ts";
+import type { StarResources, StarStatus } from '@carbonhost/typescript';
 
 export const list = "ls";
 
@@ -32,18 +32,18 @@ export const listHandler = async (argv: Arguments<CommandArgs>) => {
 
   for (const star of stars) {
     table.push([
-      chalk.green(star.starName),
-      chalk.cyan(star.starType),
-      chalk.magenta(star.starVersion),
+      chalk.green(star.name),
+      chalk.cyan(star.config.type),
+      chalk.magenta(star.config.version),
       chalk.blueBright(
-        prettyBytes(star.storageLimit * 1024 * 1024, { binary: true }),
+        prettyBytes(star.resources.storage),
       ),
       chalk.blueBright(
-        prettyBytes(star.memoryLimit * 1024 * 1024, { binary: true }),
+        prettyBytes(star.resources.memory),
       ),
-      chalk.blueBright(star.cpuLimit.toString()),
-      chalk.yellow(await star.getStatus().then((status: StarStatus) => status.status)),
-      chalk.cyan(star.getDomain()),
+      chalk.blueBright(star.resources.vCPU.toString()),
+      chalk.yellow(await star.getResources().then((status: StarResources) => status.currentState)),
+      chalk.cyan(star.subdomain.url ?? star.ip),
       chalk.gray(new Date(star.createdAt).toLocaleString()),
     ]);
   }
