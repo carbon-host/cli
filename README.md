@@ -20,7 +20,7 @@ $ npm install -g @carbonhost/cli
 $ carbon COMMAND
 running command...
 $ carbon (--version)
-@carbonhost/cli/1.0.0 darwin-arm64 node-v23.7.0
+@carbonhost/cli/1.0.1 darwin-arm64 node-v23.7.0
 $ carbon --help [COMMAND]
 USAGE
   $ carbon COMMAND
@@ -29,9 +29,9 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`carbon login`](#carbon-login)
-* [`carbon deploy`](#carbon-deploy)
+* [`carbon deploy [LOCALPATH] [STARPATH]`](#carbon-deploy-localpath-starpath)
 * [`carbon help [COMMAND]`](#carbon-help-command)
+* [`carbon login`](#carbon-login)
 * [`carbon plugins`](#carbon-plugins)
 * [`carbon plugins add PLUGIN`](#carbon-plugins-add-plugin)
 * [`carbon plugins:inspect PLUGIN...`](#carbon-pluginsinspect-plugin)
@@ -43,53 +43,29 @@ USAGE
 * [`carbon plugins unlink [PLUGIN]`](#carbon-plugins-unlink-plugin)
 * [`carbon plugins update`](#carbon-plugins-update)
 
-## `carbon login`
-
-Login to the Carbon Host platform
-
-```
-USAGE
-  $ carbon login [-p <port>]
-
-FLAGS
-  -p, --port=<value>  port to listen on for authentication callback
-
-DESCRIPTION
-  Login to the Carbon Host platform.
-  
-  This command will open your browser to authenticate with Carbon Host. After successful
-  authentication, your API key will be saved locally for future use.
-
-EXAMPLES
-  $ carbon login
-  $ carbon login --port 8000
-```
-
-## `carbon deploy`
+## `carbon deploy [LOCALPATH] [STARPATH]`
 
 Deploy a local file to a star
 
 ```
 USAGE
-  $ carbon deploy LOCAL_PATH STAR_PATH -s <star-id>
+  $ carbon deploy [LOCALPATH] [STARPATH] [-s <value>]
 
 ARGUMENTS
-  LOCAL_PATH   The path to the file that will be deployed
-  STAR_PATH    The path on the star to deploy the files to
+  LOCALPATH  The path to the file that will be deployed
+  STARPATH   The path on the server to deploy the files to
 
 FLAGS
-  -s, --star=<star-id>  (required) The Star ID to deploy to
+  -s, --star=<value>  The Star ID to deploy to
 
 DESCRIPTION
-  Deploy a local file to a star.
-  
-  This command uploads a file from your local machine to a specified path on your star.
-  You must be logged in to use this command.
+  Deploy a local file to a star
 
 EXAMPLES
-  $ carbon deploy ./my-file.txt /path/on/star --star abc123
-  $ carbon deploy index.html /public/index.html -s abc123
+  $ carbon deploy
 ```
+
+_See code: [src/commands/deploy.ts](https://github.com/carbon-host/cli/blob/v1.0.1/src/commands/deploy.ts)_
 
 ## `carbon help [COMMAND]`
 
@@ -110,6 +86,26 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.25/src/commands/help.ts)_
+
+## `carbon login`
+
+Login to the Carbon Host API
+
+```
+USAGE
+  $ carbon login [-p <value>]
+
+FLAGS
+  -p, --port=<value>  port to listen on
+
+DESCRIPTION
+  Login to the Carbon Host API
+
+EXAMPLES
+  $ carbon login
+```
+
+_See code: [src/commands/login.ts](https://github.com/carbon-host/cli/blob/v1.0.1/src/commands/login.ts)_
 
 ## `carbon plugins`
 
