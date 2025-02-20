@@ -4,8 +4,8 @@ import { createServer } from 'node:http'
 import os from 'node:os'
 import path from 'node:path'
 
-// const carbonURL = "https://dash.carbon.host"
-const carbonURL = "http://localhost:3000"
+const carbonURL = "https://dash.carbon.host"
+// const carbonURL = "http://localhost:3000"
 
 export default class Login extends Command {
   static override description = 'Login to the Carbon Host API'
