@@ -20,7 +20,7 @@ $ npm install -g @carbonhost/cli
 $ carbon COMMAND
 running command...
 $ carbon (--version)
-@carbonhost/cli/1.0.1 darwin-arm64 node-v23.7.0
+@carbonhost/cli/1.1.0 darwin-arm64 node-v23.7.0
 $ carbon --help [COMMAND]
 USAGE
   $ carbon COMMAND
@@ -29,34 +29,25 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`carbon deploy [LOCALPATH] [STARPATH]`](#carbon-deploy-localpath-starpath)
+* [`carbon deploy [LOCALPATH] [STARDIRECTORY]`](#carbon-deploy-localpath-stardirectory)
 * [`carbon help [COMMAND]`](#carbon-help-command)
 * [`carbon login`](#carbon-login)
-* [`carbon plugins`](#carbon-plugins)
-* [`carbon plugins add PLUGIN`](#carbon-plugins-add-plugin)
-* [`carbon plugins:inspect PLUGIN...`](#carbon-pluginsinspect-plugin)
-* [`carbon plugins install PLUGIN`](#carbon-plugins-install-plugin)
-* [`carbon plugins link PATH`](#carbon-plugins-link-path)
-* [`carbon plugins remove [PLUGIN]`](#carbon-plugins-remove-plugin)
-* [`carbon plugins reset`](#carbon-plugins-reset)
-* [`carbon plugins uninstall [PLUGIN]`](#carbon-plugins-uninstall-plugin)
-* [`carbon plugins unlink [PLUGIN]`](#carbon-plugins-unlink-plugin)
-* [`carbon plugins update`](#carbon-plugins-update)
 
-## `carbon deploy [LOCALPATH] [STARPATH]`
+## `carbon deploy [LOCALPATH] [STARDIRECTORY]`
 
 Deploy a local file to a star
 
 ```
 USAGE
-  $ carbon deploy [LOCALPATH] [STARPATH] [-s <value>]
+  $ carbon deploy [LOCALPATH] [STARDIRECTORY] [-s <value>] [-w]
 
 ARGUMENTS
-  LOCALPATH  The path to the file that will be deployed
-  STARPATH   The path on the server to deploy the files to
+  LOCALPATH      The path to the file that will be deployed
+  STARDIRECTORY  The directory on the server to deploy the file to
 
 FLAGS
   -s, --star=<value>  The Star ID to deploy to
+  -w, --watch         Watch for changes and auto-deploy
 
 DESCRIPTION
   Deploy a local file to a star
@@ -65,7 +56,7 @@ EXAMPLES
   $ carbon deploy
 ```
 
-_See code: [src/commands/deploy.ts](https://github.com/carbon-host/cli/blob/v1.0.1/src/commands/deploy.ts)_
+_See code: [src/commands/deploy.ts](https://github.com/carbon-host/cli/blob/v1.1.0/src/commands/deploy.ts)_
 
 ## `carbon help [COMMAND]`
 
@@ -105,295 +96,5 @@ EXAMPLES
   $ carbon login
 ```
 
-_See code: [src/commands/login.ts](https://github.com/carbon-host/cli/blob/v1.0.1/src/commands/login.ts)_
-
-## `carbon plugins`
-
-List installed plugins.
-
-```
-USAGE
-  $ carbon plugins [--json] [--core]
-
-FLAGS
-  --core  Show core plugins.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  List installed plugins.
-
-EXAMPLES
-  $ carbon plugins
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/index.ts)_
-
-## `carbon plugins add PLUGIN`
-
-Installs a plugin into carbon.
-
-```
-USAGE
-  $ carbon plugins add PLUGIN... [--json] [-f] [-h] [-s | -v]
-
-ARGUMENTS
-  PLUGIN...  Plugin to install.
-
-FLAGS
-  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
-  -h, --help     Show CLI help.
-  -s, --silent   Silences npm output.
-  -v, --verbose  Show verbose npm output.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Installs a plugin into carbon.
-
-  Uses npm to install plugins.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  Use the CARBON_NPM_LOG_LEVEL environment variable to set the npm loglevel.
-  Use the CARBON_NPM_REGISTRY environment variable to set the npm registry.
-
-ALIASES
-  $ carbon plugins add
-
-EXAMPLES
-  Install a plugin from npm registry.
-
-    $ carbon plugins add myplugin
-
-  Install a plugin from a github url.
-
-    $ carbon plugins add https://github.com/someuser/someplugin
-
-  Install a plugin from a github slug.
-
-    $ carbon plugins add someuser/someplugin
-```
-
-## `carbon plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
-
-```
-USAGE
-  $ carbon plugins inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN...  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ carbon plugins inspect myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/inspect.ts)_
-
-## `carbon plugins install PLUGIN`
-
-Installs a plugin into carbon.
-
-```
-USAGE
-  $ carbon plugins install PLUGIN... [--json] [-f] [-h] [-s | -v]
-
-ARGUMENTS
-  PLUGIN...  Plugin to install.
-
-FLAGS
-  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
-  -h, --help     Show CLI help.
-  -s, --silent   Silences npm output.
-  -v, --verbose  Show verbose npm output.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Installs a plugin into carbon.
-
-  Uses npm to install plugins.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  Use the CARBON_NPM_LOG_LEVEL environment variable to set the npm loglevel.
-  Use the CARBON_NPM_REGISTRY environment variable to set the npm registry.
-
-ALIASES
-  $ carbon plugins add
-
-EXAMPLES
-  Install a plugin from npm registry.
-
-    $ carbon plugins install myplugin
-
-  Install a plugin from a github url.
-
-    $ carbon plugins install https://github.com/someuser/someplugin
-
-  Install a plugin from a github slug.
-
-    $ carbon plugins install someuser/someplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/install.ts)_
-
-## `carbon plugins link PATH`
-
-Links a plugin into the CLI for development.
-
-```
-USAGE
-  $ carbon plugins link PATH [-h] [--install] [-v]
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-FLAGS
-  -h, --help          Show CLI help.
-  -v, --verbose
-      --[no-]install  Install dependencies after linking the plugin.
-
-DESCRIPTION
-  Links a plugin into the CLI for development.
-
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-
-EXAMPLES
-  $ carbon plugins link myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/link.ts)_
-
-## `carbon plugins remove [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ carbon plugins remove [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  PLUGIN...  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ carbon plugins unlink
-  $ carbon plugins remove
-
-EXAMPLES
-  $ carbon plugins remove myplugin
-```
-
-## `carbon plugins reset`
-
-Remove all user-installed and linked plugins.
-
-```
-USAGE
-  $ carbon plugins reset [--hard] [--reinstall]
-
-FLAGS
-  --hard       Delete node_modules and package manager related files in addition to uninstalling plugins.
-  --reinstall  Reinstall all plugins after uninstalling.
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/reset.ts)_
-
-## `carbon plugins uninstall [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ carbon plugins uninstall [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  PLUGIN...  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ carbon plugins unlink
-  $ carbon plugins remove
-
-EXAMPLES
-  $ carbon plugins uninstall myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/uninstall.ts)_
-
-## `carbon plugins unlink [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ carbon plugins unlink [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  PLUGIN...  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ carbon plugins unlink
-  $ carbon plugins remove
-
-EXAMPLES
-  $ carbon plugins unlink myplugin
-```
-
-## `carbon plugins update`
-
-Update installed plugins.
-
-```
-USAGE
-  $ carbon plugins update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Update installed plugins.
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.33/src/commands/plugins/update.ts)_
+_See code: [src/commands/login.ts](https://github.com/carbon-host/cli/blob/v1.1.0/src/commands/login.ts)_
 <!-- commandsstop -->
