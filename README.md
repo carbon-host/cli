@@ -1,100 +1,80 @@
-@carbonhost/cli
-=================
+# Carbon CLI
 
-A CLI to interact with the carbon.host platform
+The Carbon CLI (`@carbonhost/cli`) provides a command-line interface for managing your Carbon deployments and resources.
 
-
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@carbonhost/cli.svg)](https://npmjs.org/package/@carbonhost/cli)
 [![Downloads/week](https://img.shields.io/npm/dw/@carbonhost/cli.svg)](https://npmjs.org/package/@carbonhost/cli)
 
+## Installation
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g @carbonhost/cli
-$ carbon COMMAND
-running command...
-$ carbon (--version)
-@carbonhost/cli/1.1.0 darwin-arm64 node-v23.7.0
-$ carbon --help [COMMAND]
-USAGE
-  $ carbon COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`carbon deploy [LOCALPATH] [STARDIRECTORY]`](#carbon-deploy-localpath-stardirectory)
-* [`carbon help [COMMAND]`](#carbon-help-command)
-* [`carbon login`](#carbon-login)
-
-## `carbon deploy [LOCALPATH] [STARDIRECTORY]`
-
-Deploy a local file to a star
-
-```
-USAGE
-  $ carbon deploy [LOCALPATH] [STARDIRECTORY] [-s <value>] [-w]
-
-ARGUMENTS
-  LOCALPATH      The path to the file that will be deployed
-  STARDIRECTORY  The directory on the server to deploy the file to
-
-FLAGS
-  -s, --star=<value>  The Star ID to deploy to
-  -w, --watch         Watch for changes and auto-deploy
-
-DESCRIPTION
-  Deploy a local file to a star
-
-EXAMPLES
-  $ carbon deploy
+**npm:**
+```bash
+npm install -g @carbonhost/cli
 ```
 
-_See code: [src/commands/deploy.ts](https://github.com/carbon-host/cli/blob/v1.1.0/src/commands/deploy.ts)_
-
-## `carbon help [COMMAND]`
-
-Display help for carbon.
-
-```
-USAGE
-  $ carbon help [COMMAND...] [-n]
-
-ARGUMENTS
-  COMMAND...  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for carbon.
+**yarn:**
+```bash
+yarn global add @carbonhost/cli
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.25/src/commands/help.ts)_
-
-## `carbon login`
-
-Login to the Carbon Host API
-
-```
-USAGE
-  $ carbon login [-p <value>]
-
-FLAGS
-  -p, --port=<value>  port to listen on
-
-DESCRIPTION
-  Login to the Carbon Host API
-
-EXAMPLES
-  $ carbon login
+**pnpm:**
+```bash
+pnpm add -g @carbonhost/cli
 ```
 
-_See code: [src/commands/login.ts](https://github.com/carbon-host/cli/blob/v1.1.0/src/commands/login.ts)_
-<!-- commandsstop -->
+**bun:**
+```bash
+bun add -g @carbonhost/cli
+```
+
+## Command Reference
+
+### Authentication
+
+```bash
+# Login to Carbon CLI
+carbon login
+```
+
+The login command opens your browser to authenticate with Carbon. It will display a verification code that you should verify matches in the browser. After successful authentication, your API key will be saved locally.
+
+Options:
+- `--port, -p`: Specify a custom port for the local authentication server (optional)
+
+### File Deployment
+
+```bash
+# Deploy a file to a star
+carbon deploy <localPath> <starDirectory> --star <starId> [--watch]
+```
+
+The deploy command uploads a local file to a specified directory on your star (server).
+
+Arguments:
+- `localPath`: Path to the local file you want to deploy
+- `starDirectory`: Target directory on the star where the file should be uploaded
+- `--star, -s`: The ID of the star to deploy to
+- `--watch, -w`: Watch for local file changes and auto-deploy (optional)
+
+Examples:
+```bash
+# Deploy a single file
+carbon deploy ./presets/paper-global.yml /config --star abc123
+
+# Deploy and watch for changes
+carbon deploy ./build/libs/PluginPortal.jar /plugins --star abc123 --watch
+```
+
+> **Note**: When using the watch flag, the CLI will monitor the specified file for changes and automatically upload new versions when detected. This is particularly useful during development.
+
+### Help
+
+```bash
+# Get general help
+carbon help
+
+# Get help for a specific command
+carbon help <command>
+```
+
+The help command provides detailed information about available commands and their usage.
