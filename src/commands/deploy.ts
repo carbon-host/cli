@@ -9,7 +9,7 @@ import ora from 'ora'
 export default class Deploy extends Command {
   static override args = {
     localPath: Args.string({description: 'The path to the file that will be deployed'}),
-    starPath: Args.string({description: 'The path on the server to deploy the files to'}),
+    starDirectory: Args.string({description: 'The directory on the server to deploy the file to'}),
   }
   static override description = 'Deploy a local file to a star'
   static override examples = [
@@ -17,6 +17,25 @@ export default class Deploy extends Command {
   ]
   static override flags = {
     star: Flags.string({char: 's', description: 'The Star ID to deploy to'}),
+    watch: Flags.boolean({char: 'w', description: 'Watch for changes and auto-deploy'}),
+  }
+
+  private async uploadFile(star: any, localPath: string, starDirectory: string, spinner: any) {
+    try {
+      spinner.text = 'Reading local file'
+      const file = new File(
+        [fs.readFileSync(localPath)],
+        path.basename(localPath)
+      )
+
+      spinner.text = `Uploading ${path.basename(localPath)} to ${starDirectory}`
+      await star.files.uploadFile(starDirectory, file)
+
+      spinner.succeed(`Successfully uploaded ${path.basename(localPath)}`)
+      this.log(`✨ File deployed to ${starDirectory}`)
+    } catch (error) {
+      spinner.fail(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    }
   }
 
   public async run(): Promise<void> {
@@ -32,8 +51,8 @@ export default class Deploy extends Command {
       return
     }
 
-    if (!args.starPath) {
-      this.error('No star path provided, please provide a star path with the second argument')
+    if (!args.starDirectory) {
+      this.error('No star directory provided, please provide a star directory with the second argument')
       return
     }
 
@@ -50,19 +69,35 @@ export default class Deploy extends Command {
       return
     }
 
-    spinner.text = 'Reading local file'
-    // Read the local file
-    const file = new File(
-      [fs.readFileSync(args.localPath)],
-      path.basename(args.localPath)
-    )
+    // Do initial upload
+    await this.uploadFile(star, args.localPath, args.starDirectory, spinner)
 
-    // Upload file
-    spinner.text = `Uploading ${path.basename(args.localPath)} to ${args.starPath}`
-    const directory = path.dirname(args.starPath)
-    const upload = await star.files.uploadFile(directory, file)
+    // If watch flag is set, continue watching for changes
+    if (flags.watch) {
+      this.log('\n👀 Watching for changes...')
+      
+      let debounceTimer: NodeJS.Timeout
+      fs.watch(args.localPath, (eventType) => {
+        // Clear existing timer
+        clearTimeout(debounceTimer)
+        
+        // Set new timer to debounce rapid changes
+        debounceTimer = setTimeout(async () => {
+          if (eventType === 'change') {
+            const newSpinner = ora('File changed, uploading...').start()
+            await this.uploadFile(star, args.localPath!, args.starDirectory!, newSpinner)
+          }
+        }, 100) // Debounce for 100ms
+      })
 
-    spinner.succeed(`Successfully uploaded ${path.basename(args.localPath)}`)
-    this.log(`✨ File deployed to ${args.starPath}`)
+      // Keep process alive
+      process.stdin.resume()
+
+      // Handle interrupts gracefully
+      process.on('SIGINT', () => {
+        this.log('\n\n🛑 Stopping file watch')
+        process.exit(0)
+      })
+    }
   }
 }
