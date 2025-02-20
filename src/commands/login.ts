@@ -1,8 +1,11 @@
-import {Args, Command, Flags} from '@oclif/core'
+import { Args, Command, Flags } from '@oclif/core'
 import fs from 'node:fs'
 import { createServer } from 'node:http'
 import os from 'node:os'
 import path from 'node:path'
+
+// const carbonURL = "https://dash.carbon.host"
+const carbonURL = "http://localhost:3000"
 
 export default class Login extends Command {
   static override description = 'Login to the Carbon Host API'
@@ -10,30 +13,30 @@ export default class Login extends Command {
     '<%= config.bin %> <%= command.id %>',
   ]
   static override flags = {
-    port: Flags.string({char: 'p', description: 'port to listen on'}),
-  } 
+    port: Flags.string({ char: 'p', description: 'port to listen on' }),
+  }
 
   public async run(): Promise<void> {
-    const {flags} = await this.parse(Login)
+    const { flags } = await this.parse(Login)
 
-    // Generate a random key for authentication
-    const randomKey = `${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
-    
+    // Generate a random code for authentication
+    const randomCode = `${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`
+
     const server = createServer((req, res) => {
       if (req.url?.startsWith('/v1/login')) {
         const url = new URL(req.url!, 'http://localhost')
         const key = url.searchParams.get('key')
 
-        if (key !== randomKey) {
+        if (!key) {
           res.writeHead(400)
-          res.end('Invalid authentication key')
+          res.end('No key provided')
           return
         }
 
         const decodedKey = decodeURIComponent(key)
         fs.writeFileSync(path.join(os.homedir(), '.carbon'), `API_KEY=${decodedKey}`)
 
-        res.writeHead(200, {'Content-Type': 'text/html'})
+        res.writeHead(200, { 'Content-Type': 'text/html' })
         res.end(`
           <html>
             <head>
@@ -47,7 +50,7 @@ export default class Login extends Command {
             </body>
           </html>
         `)
-        
+
         this.log('\n✅ Authentication successful! You can now use the Carbon CLI.\n')
         process.exit(0)
       }
@@ -73,18 +76,22 @@ export default class Login extends Command {
       }
     }
 
-    const startingPort = flags.port ? Number.parseInt(flags.port, 10) : 3000
+    const startingPort = flags.port ? Number.parseInt(flags.port, 10) : 32145
     const port = await tryPort(startingPort)
 
-    this.log('\n🔐 Carbon CLI Authentication')
-    this.log('\nOpening your browser to complete authentication...')
-    this.log(`\n💡 If your browser doesn't open automatically, visit this URL:\n`)
-    this.log(`   http://localhost:${port}/v1/login?key=${randomKey}\n`)
+    const redirectURL = `http://localhost:${port}/v1/login`
+    const authURL = `${carbonURL}/auth/cli?code=${randomCode}&redirect=${redirectURL}`
 
-    // Try to open the browser
+    this.log(`\n💡 If your browser doesn't open automatically, visit this URL:\n`)
+    this.log(`   ${authURL}\n`)
+    this.log(`\n🔑 Verification Code: ${randomCode}`)
+    this.log(`\n💡 Note: Please make sure the code in the authentication URL matches the code above.`)
+
     try {
-      const open = await import('open')
-      await open.default(`http://localhost:${port}/v1/login?key=${randomKey}`)
+      setTimeout(async () => {
+        const open = await import('open')
+        await open.default(authURL)
+      }, 2500)
     } catch {
       // Silent fail if we can't open the browser
     }
