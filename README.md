@@ -29,8 +29,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`carbon hello PERSON`](#carbon-hello-person)
-* [`carbon hello world`](#carbon-hello-world)
+* [`carbon login`](#carbon-login)
+* [`carbon deploy`](#carbon-deploy)
 * [`carbon help [COMMAND]`](#carbon-help-command)
 * [`carbon plugins`](#carbon-plugins)
 * [`carbon plugins add PLUGIN`](#carbon-plugins-add-plugin)
@@ -43,47 +43,53 @@ USAGE
 * [`carbon plugins unlink [PLUGIN]`](#carbon-plugins-unlink-plugin)
 * [`carbon plugins update`](#carbon-plugins-update)
 
-## `carbon hello PERSON`
+## `carbon login`
 
-Say hello
+Login to the Carbon Host platform
 
 ```
 USAGE
-  $ carbon hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
+  $ carbon login [-p <port>]
 
 FLAGS
-  -f, --from=<value>  (required) Who is saying hello
+  -p, --port=<value>  port to listen on for authentication callback
 
 DESCRIPTION
-  Say hello
+  Login to the Carbon Host platform.
+  
+  This command will open your browser to authenticate with Carbon Host. After successful
+  authentication, your API key will be saved locally for future use.
 
 EXAMPLES
-  $ carbon hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
+  $ carbon login
+  $ carbon login --port 8000
 ```
 
-_See code: [src/commands/hello/index.ts](https://github.com/carbon-host/cli/blob/v1.0.0/src/commands/hello/index.ts)_
+## `carbon deploy`
 
-## `carbon hello world`
-
-Say hello world
+Deploy a local file to a star
 
 ```
 USAGE
-  $ carbon hello world
+  $ carbon deploy LOCAL_PATH STAR_PATH -s <star-id>
+
+ARGUMENTS
+  LOCAL_PATH   The path to the file that will be deployed
+  STAR_PATH    The path on the star to deploy the files to
+
+FLAGS
+  -s, --star=<star-id>  (required) The Star ID to deploy to
 
 DESCRIPTION
-  Say hello world
+  Deploy a local file to a star.
+  
+  This command uploads a file from your local machine to a specified path on your star.
+  You must be logged in to use this command.
 
 EXAMPLES
-  $ carbon hello world
-  hello world! (./src/commands/hello/world.ts)
+  $ carbon deploy ./my-file.txt /path/on/star --star abc123
+  $ carbon deploy index.html /public/index.html -s abc123
 ```
-
-_See code: [src/commands/hello/world.ts](https://github.com/carbon-host/cli/blob/v1.0.0/src/commands/hello/world.ts)_
 
 ## `carbon help [COMMAND]`
 
