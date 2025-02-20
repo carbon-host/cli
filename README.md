@@ -20,7 +20,7 @@ $ npm install -g @carbonhost/cli
 $ carbon COMMAND
 running command...
 $ carbon (--version)
-@carbonhost/cli/0.0.0 darwin-arm64 node-v23.7.0
+@carbonhost/cli/1.0.0 darwin-arm64 node-v23.7.0
 $ carbon --help [COMMAND]
 USAGE
   $ carbon COMMAND
@@ -65,7 +65,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [src/commands/hello/index.ts](https://github.com/carbon-host/cli/blob/v0.0.0/src/commands/hello/index.ts)_
+_See code: [src/commands/hello/index.ts](https://github.com/carbon-host/cli/blob/v1.0.0/src/commands/hello/index.ts)_
 
 ## `carbon hello world`
 
@@ -83,7 +83,7 @@ EXAMPLES
   hello world! (./src/commands/hello/world.ts)
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/carbon-host/cli/blob/v0.0.0/src/commands/hello/world.ts)_
+_See code: [src/commands/hello/world.ts](https://github.com/carbon-host/cli/blob/v1.0.0/src/commands/hello/world.ts)_
 
 ## `carbon help [COMMAND]`
 
