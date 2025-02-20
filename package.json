@@ -1,7 +1,7 @@
 {
   "name": "@carbonhost/cli",
   "description": "A CLI to interact with the carbon.host platform",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "Carbon Host",
   "bin": {
     "carbon": "./bin/run.js"
