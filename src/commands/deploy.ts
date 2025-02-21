@@ -35,6 +35,16 @@ export default class Deploy extends Command {
 
       spinner.succeed(`Successfully uploaded ${path.basename(localPath)}`)
       this.log(`✨ File deployed to ${starDirectory}`)
+
+      if (Deploy.flags.postDeploy) {
+        this.log(`\n🔄 Running post-deploy command: ${Deploy.flags.postDeploy}`)
+        await star.executeCommand(Deploy.flags.postDeploy)
+      }
+
+      if (Deploy.flags.restart) {
+        this.log('\n🔄 Restarting server')
+        await star.setPower('restart')
+      }
     } catch (error) {
       spinner.fail(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
@@ -88,16 +98,6 @@ export default class Deploy extends Command {
           if (eventType === 'change') {
             const newSpinner = ora('File changed, uploading...').start()
             await this.uploadFile(star, args.localPath!, args.starDirectory!, newSpinner)
-
-            if (flags.postDeploy) {
-              this.log(`\n🔄 Running post-deploy command: ${flags.postDeploy}`)
-              await star.executeCommand(flags.postDeploy)
-            }
-
-            if (flags.restart) {
-              this.log('\n🔄 Restarting server')
-              await star.setPower('restart')
-            }
           }
         }, 100) // Debounce for 100ms
       })
