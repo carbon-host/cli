@@ -22,7 +22,7 @@ export default class Deploy extends Command {
     restart: Flags.boolean({char: 'r', description: 'Restart the server after the file is deployed'}),
   }
 
-  private async uploadFile(star: any, localPath: string, starDirectory: string, spinner: any) {
+  private async uploadFile(star: any, localPath: string, starDirectory: string, spinner: any, postDeploy?: string, restart?: boolean) {
     try {
       spinner.text = 'Reading local file'
       const file = new File(
@@ -36,12 +36,12 @@ export default class Deploy extends Command {
       spinner.succeed(`Successfully uploaded ${path.basename(localPath)}`)
       this.log(`✨ File deployed to ${starDirectory}`)
 
-      if (Deploy.flags.postDeploy) {
-        this.log(`\n🔄 Running post-deploy command: ${Deploy.flags.postDeploy}`)
-        await star.executeCommand(Deploy.flags.postDeploy)
+      if (postDeploy) {
+        this.log(`\n🔄 Running post-deploy command: ${postDeploy}`)
+        await star.executeCommand(postDeploy)
       }
 
-      if (Deploy.flags.restart) {
+      if (restart) {
         this.log('\n🔄 Restarting server')
         await star.setPower('restart')
       }
@@ -82,7 +82,7 @@ export default class Deploy extends Command {
     }
 
     // Do initial upload
-    await this.uploadFile(star, args.localPath, args.starDirectory, spinner)
+    await this.uploadFile(star, args.localPath, args.starDirectory, spinner, flags.postDeploy, flags.restart)
 
     // If watch flag is set, continue watching for changes
     if (flags.watch) {
@@ -97,7 +97,7 @@ export default class Deploy extends Command {
         debounceTimer = setTimeout(async () => {
           if (eventType === 'change') {
             const newSpinner = ora('File changed, uploading...').start()
-            await this.uploadFile(star, args.localPath!, args.starDirectory!, newSpinner)
+            await this.uploadFile(star, args.localPath!, args.starDirectory!, newSpinner, flags.postDeploy, flags.restart)
           }
         }, 100) // Debounce for 100ms
       })
