@@ -18,6 +18,8 @@ export default class Deploy extends Command {
   static override flags = {
     star: Flags.string({char: 's', description: 'The Star ID to deploy to'}),
     watch: Flags.boolean({char: 'w', description: 'Watch for changes and auto-deploy'}),
+    postDeploy: Flags.string({char: 'p', description: 'A command to run after the file is deployed'}),
+    restart: Flags.boolean({char: 'r', description: 'Restart the server after the file is deployed'}),
   }
 
   private async uploadFile(star: any, localPath: string, starDirectory: string, spinner: any) {
@@ -86,6 +88,16 @@ export default class Deploy extends Command {
           if (eventType === 'change') {
             const newSpinner = ora('File changed, uploading...').start()
             await this.uploadFile(star, args.localPath!, args.starDirectory!, newSpinner)
+
+            if (flags.postDeploy) {
+              this.log(`\n🔄 Running post-deploy command: ${flags.postDeploy}`)
+              await star.executeCommand(flags.postDeploy)
+            }
+
+            if (flags.restart) {
+              this.log('\n🔄 Restarting server')
+              await star.setPower('restart')
+            }
           }
         }, 100) // Debounce for 100ms
       })
