@@ -11,8 +11,10 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
+    "@oclif/table": "^0.4.6",
     "open": "^10.1.0",
-    "ora": "^8.2.0"
+    "ora": "^8.2.0",
+    "pretty-bytes": "^6.1.1"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
