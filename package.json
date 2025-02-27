@@ -1,13 +1,14 @@
 {
   "name": "@carbonhost/cli",
   "description": "A CLI to interact with the carbon.host platform",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Carbon Host",
   "bin": {
     "carbon": "./bin/run.js"
   },
   "bugs": "https://github.com/carbon-host/cli/issues",
   "dependencies": {
+    "@carbonhost/typescript": "^1.1.3",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
